@@ -5,11 +5,12 @@ from pandas import DataFrame
 # digits to round final results
 ROUND = 3
 
+
 def mdp(
-    max_inv: int, min_inv: int, max_fish: int, max_T: int, sale_price: float, 
-    fuel_cost: float, fish_cost: float, holding_cost: float, lost_sales_cost: float, 
-    salvage_price: float, d: list, pd: list
-    ):
+    max_inv: int = 12, min_inv: int = 0, max_fish: int = 5, max_T: int = 75,
+    sale_price: float = 20, fuel_cost: float = 10, fish_cost: float = 4, holding_cost: float = 1, lost_sales_cost: float = 12,
+    salvage_price: float = 12, d: list = [0, 1, 2, 3, 4], pd: list = [0.2, 0.2, 0.2, 0.3, 0.1]
+):
     """Performs the Markov Decision Process for the fish problem.
 
     Parameters
@@ -35,9 +36,9 @@ def mdp(
     salvage_price: float
         The salvage price
     d: list
-        The list of possible demands
+        The possible demand values
     pd: list
-        The list of the probability of each demand
+        The probability of each demand
     """
 
     # initializing arrays
@@ -57,19 +58,19 @@ def mdp(
     for i in range(min_inv, max_inv + 1):
         for k in range(k_alt[i] + 1):
             fs_ind = k > 0
-            
+
             for d_, pd_ in zip(d, pd):
                 inv_b4_dmd = i + k
                 sales = min(inv_b4_dmd, d_)
                 ls = d_ - sales
                 j = inv_b4_dmd - sales
-                
-                p[i,j,k] = p[i,j,k] + pd_
-                q[i,k] = q[i,k] + (
+
+                p[i, j, k] = p[i, j, k] + pd_
+                q[i, k] = q[i, k] + (
                     sale_price * sales - (
-                        fs_ind * fuel_cost \
-                        + fish_cost * k \
-                        + holding_cost * j \
+                        fs_ind * fuel_cost
+                        + fish_cost * k
+                        + holding_cost * j
                         + lost_sales_cost * ls
                     )
                 ) * pd_
@@ -81,26 +82,26 @@ def mdp(
     for n in range(1, max_T + 1):
         for i in range(min_inv, max_inv + 1):
             best_so_far = -np.inf
-            
+
             for k in range(k_alt[i] + 1):
-                sum_ = q[i,k]
-                
+                sum_ = q[i, k]
+
                 for j in range(max_inv + 1):
-                    sum_ += + p[i,j,k] * v[j,n-1]
-                
+                    sum_ += + p[i, j, k] * v[j, n-1]
+
                 if sum_ > best_so_far:
                     best_so_far = sum_
                     best_k = k
-                    
-            v[i,n] = best_so_far
-            dec[i,n] = best_k
-            
+
+            v[i, n] = best_so_far
+            dec[i, n] = best_k
+
         for i in range(min_inv, max_inv + 1):
             tmp[i] = 0
-            
+
             for j in range(min_inv, max_inv + 1):
-                tmp[i] += pi[j] * p[j,i,dec[j,n]]
-                
+                tmp[i] += pi[j] * p[j, i, dec[j, n]]
+
         pi = [i for i in tmp]
 
     # calculate values, decisions, gain matrices
@@ -111,13 +112,14 @@ def mdp(
     for col in range(1, len(values.columns)):
         gains[values.columns[col]] = \
             values[values.columns[col]] - values[values.columns[col - 1]]
-        
+
     gains[0] = 0
 
     # get steady states array
     ss = DataFrame(pi, columns=['PI(i)']).round(ROUND).transpose()
 
     return values.round(ROUND), decisions, gains.round(ROUND), ss
+
 
 if __name__ == '__main__':
     # define inputs
@@ -132,13 +134,13 @@ if __name__ == '__main__':
     holding_cost = 1
     lost_sales_cost = 25
     salvage_price = 12
-    
+
     d = [0, 1, 2, 3, 4]
     pd = [0.2, 0.2, 0.2, 0.3, 0.1]
 
     # run MDP
     values, decisions, gains, ss = mdp(
-        max_inv, min_inv, max_fish, max_T, sale_price, fuel_cost, fish_cost, 
+        max_inv, min_inv, max_fish, max_T, sale_price, fuel_cost, fish_cost,
         holding_cost, lost_sales_cost, salvage_price, d, pd
     )
 
@@ -147,4 +149,3 @@ if __name__ == '__main__':
     print(decisions)
     print(gains)
     print(ss)
-

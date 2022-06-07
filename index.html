@@ -20,7 +20,7 @@
 
 <body class="d-flex flex-column min-vh-100 w-75 m-auto">
   <h1 class="h1">MDP - Fish Problem</h1>
-  <p>A calculater for the Markov decision process fish problem for ISE 723.</p>
+  <p>A calculator for the Markov decision process fish problem for ISE 723.</p>
 
   <div class="container d-flex">
     <form id="entries" class="border p-2 rounded" onsubmit="return false">
@@ -141,43 +141,30 @@ from MDP import mdp
 table_classes = ["table table-bordered table-striped table-hover table-sm table-responsive"]
 
 def calc_mdp(*args, **kwargs):
-  # define inputs
-  max_inv = Element('max_inv').value
-  min_inv = Element('min_inv').value
-  max_fish = Element('max_fish').value
-  max_T = Element('max_T').value
+  """Parse the inputs then retrieve and display results."""
 
-  sale_price = Element('sale_price').value
-  fuel_cost = Element('fuel_cost').value
-  fish_cost = Element('fish_cost').value
-  holding_cost = Element('holding_cost').value
-  lost_sales_cost = Element('lost_sales_cost').value
-  salvage_price = Element('salvage_price').value
+  # retrieve inputs and fix formatting
+  var_names = [
+    'max_inv', 'min_inv', 'max_fish', 'max_T', 'sale_price', 'fuel_cost', 'fish_cost', 'holding_cost', 
+    'lost_sales_cost', 'salvage_price', 'd', 'pd'
+  ]
 
-  d = Element('d').value
-  pd = Element('pd').value
+  vars = {}
+  for name in var_names:
+    val = Element(name).value
+    vars[name] = val if val != '' else None
 
+  for name in var_names[:4]:
+    vars[name] = int(vars[name]) if vars[name] else None
 
-  # check for errors
-  max_inv = int(max_inv) if '' != max_inv else 12
-  min_inv = int(min_inv) if '' != min_inv else 0
-  max_fish = int(max_fish) if '' != max_fish else 5
-  max_T = int(max_T) if '' != max_T else 75
+  for name in var_names[4:-2]:
+    vars[name] = float(vars[name]) if vars[name] else None
 
-  sale_price = float(sale_price) if '' != sale_price else 20
-  fuel_cost = float(fuel_cost) if '' != fuel_cost else 10
-  fish_cost = float(fish_cost) if '' != fish_cost else 4
-  holding_cost = float(holding_cost) if '' != holding_cost else 1
-  lost_sales_cost = float(lost_sales_cost) if '' != lost_sales_cost else 25
-  salvage_price = float(salvage_price) if '' != salvage_price else 12
+  vars['d'] = [int(i) for i in vars['d'].strip().split(' ')] if vars['d'] else None
+  vars['pd'] = [float(i) for i in vars['pd'].strip().split(' ')] if vars['pd'] else None
 
-  d = [int(i) for i in d.strip().split(' ')] if '' != d else [0, 1, 2, 3, 4]
-  pd = [float(i) for i in pd.strip().split(' ')] if '' != pd else [0.2, 0.2, 0.2, 0.3, 0.1]
-
-  values, decisions, gains, ss = mdp(
-  max_inv, min_inv, max_fish, max_T, sale_price, fuel_cost, fish_cost,
-  holding_cost, lost_sales_cost, salvage_price, d, pd
-  )
+  vars = {k: v for k, v in vars.items() if v is not None}
+  values, decisions, gains, ss = mdp(**vars)
 
   e_values = Element('values')
   e_values.write(values.to_html(classes=table_classes))
