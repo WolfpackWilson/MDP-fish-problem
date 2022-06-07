@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<head>
+    <title>MDP Fish</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <py-env>
+        - numpy
+        - pandas
+        - paths:
+            - ./MDP.py
+    </py-env>
+</head>
+
+<body>
+    <form onsubmit="return false">
+        <label for="max_inv">Max Inventory: </label>
+        <input type="number" id="max_inv" name="max_inv" placeholder="12" value="12"><br>
+
+        <label for="min_inv">Min Inventory: </label>
+        <input type="number" id="min_inv" name="min_inv" placeholder="0" value="0"><br>
+
+        <label for="max_fish">Max Fish: </label>
+        <input type="number" id="max_fish" name="max_fish" placeholder="5" value="5"><br>
+
+        <label for="max_T">Max Period: </label>
+        <input type="number" id="max_T" name="max_T" placeholder="75" value="75"><br>
+
+        <label for="sale_price">Sale Price: </label>
+        <input type="number" id="sale_price" name="sale_price" placeholder="20" value="20"><br>
+
+        <label for="fuel_cost">Fuel Cost: </label>
+        <input type="number" id="fuel_cost" name="fuel_cost" placeholder="10" value="10"><br>
+
+        <label for="fish_cost">Fish Cost: </label>
+        <input type="number" id="fish_cost" name="fish_cost" placeholder="4" value="4"><br>
+
+        <label for="holding_cost">Holding Cost: </label>
+        <input type="number" id="holding_cost" name="holding_cost" placeholder="1" value="1"><br>
+
+        <label for="lost_sales_cost">Lost Sales Cost: </label>
+        <input type="number" id="lost_sales_cost" name="lost_sales_cost" placeholder="25" value="25"><br>
+
+        <label for="salvage_price">Salvage Price: </label>
+        <input type="number" id="salvage_price" name="salvage_price" placeholder="12" value="12"><br>
+
+        <label for="d">Demand: </label>
+        <input type="text" id="d" name="d" placeholder="0 1 2 3 4" value="0 1 2 3 4"><br>
+
+        <label for="pd">Probability of Demands: </label>
+        <input type="text" id="pd" name="pd" placeholder="0.2 0.2 0.2 0.3 0.1" value="0.2 0.2 0.2 0.3 0.1"><br>
+
+        <input id="clear" type="button" value="Clear">
+        <input id="calculate" pys-onClick="calc_mdp" type="submit" value="Calculate">
+    </form>
+
+    <h3>Values Table:</h3>    
+    <div id="values"></div>
+
+    <h3>Decisions Table:</h3>
+    <div id="decisions"></div>
+
+    <h3>Gains Table:</h3>
+    <div id="gains"></div>
+
+    <h3>Steady States:</h3>
+    <div id="steady_states"></div>
+    <py-script>
+from MDP import mdp
+
+table_classes = ["table table-bordered table-striped table-hover table-sm table-responsive"]
+
+def calc_mdp(*args, **kwargs):
+    print('got here')
+
+    # define inputs
+    max_inv = int(Element('max_inv').value)
+    min_inv = int(Element('min_inv').value)
+    max_fish = int(Element('max_fish').value)
+    max_T = int(Element('max_T').value)
+    
+    sale_price = float(Element('sale_price').value)
+    fuel_cost = float(Element('fuel_cost').value)
+    fish_cost = float(Element('fish_cost').value)
+    holding_cost = float(Element('holding_cost').value)
+    lost_sales_cost = float(Element('lost_sales_cost').value)
+    salvage_price = float(Element('salvage_price').value)
+
+    d = [int(i) for i in Element('d').value.strip().split(' ')]
+    pd = [float(i) for i in Element('pd').value.strip().split(' ')]
+    
+    values, decisions, gains, ss = mdp(
+        max_inv, min_inv, max_fish, max_T, sale_price, fuel_cost, fish_cost, 
+        holding_cost, lost_sales_cost, salvage_price, d, pd
+    )
+
+    e_values = Element('values')
+    e_values.write(values.to_html(classes=table_classes))
+
+    e_decisions = Element('decisions')
+    e_decisions.write(decisions.to_html(classes=table_classes))
+
+    e_gains = Element('gains')
+    e_gains.write(gains.to_html(classes=table_classes))
+
+    e_ss = Element('steady_states')
+    e_ss.write(ss.to_html(classes=table_classes))
+    </py-script>
+</body>

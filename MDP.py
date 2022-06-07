@@ -6,9 +6,9 @@ from pandas import DataFrame
 ROUND = 3
 
 def mdp(
-    max_inv: int, min_inv: int, max_fish: int, max_T: int, sale_price: int, 
-    fuel_cost: int, fish_cost: int, holding_cost: int, lost_sales_cost: int, 
-    salvage_price: int, d: list, pd: list
+    max_inv: int, min_inv: int, max_fish: int, max_T: int, sale_price: float, 
+    fuel_cost: float, fish_cost: float, holding_cost: float, lost_sales_cost: float, 
+    salvage_price: float, d: list, pd: list
     ):
     """Performs the Markov Decision Process for the fish problem.
 
@@ -22,17 +22,17 @@ def mdp(
         The maximum number of catchable fish
     max_T: int
         The maximum period T
-    sale_price: int
+    sale_price: float
         The sale price of the fish
-    fuel_cost: int
+    fuel_cost: float
         The cost of fuel per trip
-    fish_cost: int
+    fish_cost: float
         The cost of each fish
-    holding_cost: int
+    holding_cost: float
         The holding cost for a fish
-    lost_sales_cost: int
+    lost_sales_cost: float
         The lost sales cost for an unserved demand
-    salvage_price: int
+    salvage_price: float
         The salvage price
     d: list
         The list of possible demands
@@ -125,12 +125,14 @@ if __name__ == '__main__':
     min_inv = 0
     max_fish = 5
     max_T = 75
+
     sale_price = 20
     fuel_cost = 10
     fish_cost = 4
     holding_cost = 1
     lost_sales_cost = 25
     salvage_price = 12
+    
     d = [0, 1, 2, 3, 4]
     pd = [0.2, 0.2, 0.2, 0.3, 0.1]
 
