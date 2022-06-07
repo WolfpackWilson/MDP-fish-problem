@@ -1,112 +1,196 @@
 <!DOCTYPE html>
+
 <head>
-    <title>MDP Fish</title>
-    <meta charset="utf-8">
+  <title>MDP Fish Problem</title>
+  <meta charset="utf-8">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐟</text></svg>">
 
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css">
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-    <py-env>
-        - numpy
-        - pandas
-        - paths:
-            - ./MDP.py
-    </py-env>
+  <py-env>
+    - numpy
+    - pandas
+    - paths:
+      - ./MDP.py
+  </py-env>
 </head>
 
-<body>
-    <form onsubmit="return false">
-        <label for="max_inv">Max Inventory: </label>
-        <input type="number" id="max_inv" name="max_inv" placeholder="12" value="12"><br>
+<body class="d-flex flex-column min-vh-100 w-75 m-auto">
+  <h1 class="h1">MDP - Fish Problem</h1>
+  <p>A calculater for the Markov decision process fish problem for ISE 723.</p>
 
-        <label for="min_inv">Min Inventory: </label>
-        <input type="number" id="min_inv" name="min_inv" placeholder="0" value="0"><br>
+  <div class="container d-flex">
+    <form id="entries" class="border p-2 rounded" onsubmit="return false">
+      <div class="row">
+        <div class="col">
+          <div class="form-group row mb-1">
+            <label for="max_inv" class="col col-form-label col-form-label-sm">Max Inventory:</label>
+            <div class="col-4">
+              <input type="number" id="max_inv" class="form-control form-control-sm" name="max_inv" placeholder="12">
+            </div>
+          </div>
 
-        <label for="max_fish">Max Fish: </label>
-        <input type="number" id="max_fish" name="max_fish" placeholder="5" value="5"><br>
+          <div class="form-group row mb-1">
+            <label for="min_inv" class="col col-form-label col-form-label-sm">Min Inventory: </label>
+            <div class="col-4">
+              <input type="number" id="min_inv" class="form-control form-control-sm" name="min_inv" placeholder="0">
+            </div>
+          </div>
 
-        <label for="max_T">Max Period: </label>
-        <input type="number" id="max_T" name="max_T" placeholder="75" value="75"><br>
+          <div class="form-group row mb-1">
+            <label for="max_fish" class="col col-form-label col-form-label-sm">Max Fish: </label>
+            <div class="col-4">
+              <input type="number" id="max_fish" class="form-control form-control-sm" name="max_fish" placeholder="5">
+            </div>
+          </div>
 
-        <label for="sale_price">Sale Price: </label>
-        <input type="number" id="sale_price" name="sale_price" placeholder="20" value="20"><br>
+          <div class="form-group row mb-1">
+            <label for="max_T" class="col col-form-label col-form-label-sm">Max Period: </label>
+            <div class="col-4">
+              <input type="number" id="max_T" class="form-control form-control-sm" name="max_T" placeholder="75">
+            </div>
+          </div>
 
-        <label for="fuel_cost">Fuel Cost: </label>
-        <input type="number" id="fuel_cost" name="fuel_cost" placeholder="10" value="10"><br>
+          <div class="form-group row mb-1">
+            <label for="sale_price" class="col col-form-label col-form-label-sm">Sale Price: </label>
+            <div class="col-4">
+              <input type="number" id="sale_price" class="form-control form-control-sm" name="sale_price"
+                placeholder="20">
+            </div>
+          </div>
 
-        <label for="fish_cost">Fish Cost: </label>
-        <input type="number" id="fish_cost" name="fish_cost" placeholder="4" value="4"><br>
+          <div class="form-group row mb-1">
+            <label for="fuel_cost" class="col col-form-label col-form-label-sm">Fuel Cost: </label>
+            <div class="col-4">
+              <input type="number" id="fuel_cost" class="form-control form-control-sm" name="fuel_cost" placeholder="10">
+            </div>
+          </div>
 
-        <label for="holding_cost">Holding Cost: </label>
-        <input type="number" id="holding_cost" name="holding_cost" placeholder="1" value="1"><br>
+          <div class="form-group row mb-1">
+            <label for="fish_cost" class="col col-form-label col-form-label-sm">Fish Cost: </label>
+            <div class="col-4">
+              <input type="number" id="fish_cost" class="form-control form-control-sm" name="fish_cost" placeholder="4">
+            </div>
+          </div>
+        </div>
 
-        <label for="lost_sales_cost">Lost Sales Cost: </label>
-        <input type="number" id="lost_sales_cost" name="lost_sales_cost" placeholder="25" value="25"><br>
+        <div class="col">
+          <div class="form-group row mb-1">
+            <label for="holding_cost" class="col col-form-label col-form-label-sm">Holding Cost: </label>
+            <div class="col-4">
+              <input type="number" id="holding_cost" class="form-control form-control-sm" name="holding_cost"
+                placeholder="1">
+            </div>
+          </div>
 
-        <label for="salvage_price">Salvage Price: </label>
-        <input type="number" id="salvage_price" name="salvage_price" placeholder="12" value="12"><br>
+          <div class="form-group row mb-1">
+            <label for="lost_sales_cost" class="col col-form-label col-form-label-sm">Lost Sales Cost: </label>
+            <div class="col-4">
+              <input type="number" id="lost_sales_cost" class="form-control form-control-sm" name="lost_sales_cost"
+                placeholder="25">
+            </div>
+          </div>
 
-        <label for="d">Demand: </label>
-        <input type="text" id="d" name="d" placeholder="0 1 2 3 4" value="0 1 2 3 4"><br>
+          <div class="form-group row mb-1">
+            <label for="salvage_price" class="col col-form-label col-form-label-sm">Salvage Price: </label>
+            <div class="col-4">
+              <input type="number" id="salvage_price" class="form-control form-control-sm" name="salvage_price"
+                placeholder="12">
+            </div>
+          </div>
 
-        <label for="pd">Probability of Demands: </label>
-        <input type="text" id="pd" name="pd" placeholder="0.2 0.2 0.2 0.3 0.1" value="0.2 0.2 0.2 0.3 0.1"><br>
+          <div class="form-group mb-1">
+            <label for="d" class="col-form-label-sm mb-0 pb-1">Demand: </label>
+            <input type="text" id="d" class="form-control form-control-sm" name="d" placeholder="0 1 2 3 4">
+          </div>
 
-        <input id="clear" type="button" value="Clear">
-        <input id="calculate" pys-onClick="calc_mdp" type="submit" value="Calculate">
+          <div class="form-group mb-1">
+            <label for="pd" class="col-form-label-sm mb-0 pb-1">Probability of Demands: </label>
+            <input type="text" id="pd" class="form-control form-control-sm" name="pd" placeholder="0.2 0.2 0.2 0.3 0.1">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mb-0">
+        <button id="calculate" class="btn btn-primary" pys-onClick="calc_mdp" type="submit">Calculate</button>
+        <input id="clear" class="btn btn-outline-primary" type="reset" value="Clear">
+      </div>
     </form>
+  </div>
 
-    <h3>Values Table:</h3>    
+  <div id="tables" class="container mt-4 hidden">
+    <h4 class="h4">Values Table:</h4>
     <div id="values"></div>
 
-    <h3>Decisions Table:</h3>
+    <h4 class="h4">Decisions Table:</h4>
     <div id="decisions"></div>
 
-    <h3>Gains Table:</h3>
+    <h4 class="h4">Gains Table:</h4>
     <div id="gains"></div>
 
-    <h3>Steady States:</h3>
+    <h4 class="h4">Steady States:</h4>
     <div id="steady_states"></div>
-    <py-script>
+  </div>
+
+  <py-script>
 from MDP import mdp
 
 table_classes = ["table table-bordered table-striped table-hover table-sm table-responsive"]
 
 def calc_mdp(*args, **kwargs):
-    print('got here')
+  # define inputs
+  max_inv = Element('max_inv').value
+  min_inv = Element('min_inv').value
+  max_fish = Element('max_fish').value
+  max_T = Element('max_T').value
 
-    # define inputs
-    max_inv = int(Element('max_inv').value)
-    min_inv = int(Element('min_inv').value)
-    max_fish = int(Element('max_fish').value)
-    max_T = int(Element('max_T').value)
-    
-    sale_price = float(Element('sale_price').value)
-    fuel_cost = float(Element('fuel_cost').value)
-    fish_cost = float(Element('fish_cost').value)
-    holding_cost = float(Element('holding_cost').value)
-    lost_sales_cost = float(Element('lost_sales_cost').value)
-    salvage_price = float(Element('salvage_price').value)
+  sale_price = Element('sale_price').value
+  fuel_cost = Element('fuel_cost').value
+  fish_cost = Element('fish_cost').value
+  holding_cost = Element('holding_cost').value
+  lost_sales_cost = Element('lost_sales_cost').value
+  salvage_price = Element('salvage_price').value
 
-    d = [int(i) for i in Element('d').value.strip().split(' ')]
-    pd = [float(i) for i in Element('pd').value.strip().split(' ')]
-    
-    values, decisions, gains, ss = mdp(
-        max_inv, min_inv, max_fish, max_T, sale_price, fuel_cost, fish_cost, 
-        holding_cost, lost_sales_cost, salvage_price, d, pd
-    )
+  d = Element('d').value
+  pd = Element('pd').value
 
-    e_values = Element('values')
-    e_values.write(values.to_html(classes=table_classes))
 
-    e_decisions = Element('decisions')
-    e_decisions.write(decisions.to_html(classes=table_classes))
+  # check for errors
+  max_inv = int(max_inv) if '' != max_inv else 12
+  min_inv = int(min_inv) if '' != min_inv else 0
+  max_fish = int(max_fish) if '' != max_fish else 5
+  max_T = int(max_T) if '' != max_T else 75
 
-    e_gains = Element('gains')
-    e_gains.write(gains.to_html(classes=table_classes))
+  sale_price = float(sale_price) if '' != sale_price else 20
+  fuel_cost = float(fuel_cost) if '' != fuel_cost else 10
+  fish_cost = float(fish_cost) if '' != fish_cost else 4
+  holding_cost = float(holding_cost) if '' != holding_cost else 1
+  lost_sales_cost = float(lost_sales_cost) if '' != lost_sales_cost else 25
+  salvage_price = float(salvage_price) if '' != salvage_price else 12
 
-    e_ss = Element('steady_states')
-    e_ss.write(ss.to_html(classes=table_classes))
-    </py-script>
+  d = [int(i) for i in d.strip().split(' ')] if '' != d else [0, 1, 2, 3, 4]
+  pd = [float(i) for i in pd.strip().split(' ')] if '' != pd else [0.2, 0.2, 0.2, 0.3, 0.1]
+
+  values, decisions, gains, ss = mdp(
+  max_inv, min_inv, max_fish, max_T, sale_price, fuel_cost, fish_cost,
+  holding_cost, lost_sales_cost, salvage_price, d, pd
+  )
+
+  e_values = Element('values')
+  e_values.write(values.to_html(classes=table_classes))
+
+  e_decisions = Element('decisions')
+  e_decisions.write(decisions.to_html(classes=table_classes))
+
+  e_gains = Element('gains')
+  e_gains.write(gains.to_html(classes=table_classes))
+
+  e_ss = Element('steady_states')
+  e_ss.write(ss.to_html(classes=table_classes))
+
+  Element('tables').remove_class('hidden')
+  </py-script>
 </body>
