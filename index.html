@@ -120,7 +120,7 @@
 
       <div class="form-group mb-0">
         <button id="calculate" class="btn btn-primary" pys-onClick="calc_mdp" type="submit">Calculate</button>
-        <input id="clear" class="btn btn-outline-primary" type="reset" value="Clear">
+        <input id="clear" class="btn btn-outline-danger" type="reset" value="Clear">
       </div>
     </form>
   </div>
@@ -144,6 +144,8 @@
     <h4 class="h4">Steady States:</h4>
     <div id="steady_states"></div>
   </div>
+
+  <span style="padding: 10% 0"></span>
 
   <py-script>
 from MDP import mdp

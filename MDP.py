@@ -7,9 +7,12 @@ ROUND = 3
 
 
 def mdp(
-    max_inv: int = 12, min_inv: int = 0, max_fish: int = 5, max_T: int = 75,
-    sale_price: float = 20, fuel_cost: float = 10, fish_cost: float = 4, holding_cost: float = 1, lost_sales_cost: float = 12,
-    salvage_price: float = 12, d: list = [0, 1, 2, 3, 4], pd: list = [0.2, 0.2, 0.2, 0.3, 0.1]
+    max_inv: int = 12, min_inv: int = 0, 
+    max_fish: int = 5, max_T: int = 75,
+    sale_price: float = 20, fuel_cost: float = 10, 
+    fish_cost: float = 4, holding_cost: float = 1, 
+    lost_sales_cost: float = 12, salvage_price: float = 12, 
+    d: list = [0, 1, 2, 3, 4], pd: list = [0.2, 0.2, 0.2, 0.3, 0.1]
 ):
     """Performs the Markov Decision Process for the fish problem.
 
@@ -104,7 +107,7 @@ def mdp(
 
         pi = [i for i in tmp]
 
-    # calculate values, decisions, gain matrices
+    # calculate values, decisions, gains matrices
     values = DataFrame(v)
     decisions = DataFrame(dec)
 
