@@ -11,7 +11,7 @@ def mdp(
     max_fish: int = 5, max_T: int = 75,
     sale_price: float = 20, fuel_cost: float = 10, 
     fish_cost: float = 4, holding_cost: float = 1, 
-    lost_sales_cost: float = 12, salvage_price: float = 12, 
+    lost_sales_cost: float = 25, salvage_price: float = 12,
     d: list = [0, 1, 2, 3, 4], pd: list = [0.2, 0.2, 0.2, 0.3, 0.1]
 ):
     """Performs the Markov Decision Process for the fish problem.
