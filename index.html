@@ -22,7 +22,7 @@
 
 <div class="container">
     <h1 class="h1 mt-3">MDP - Fish Problem</h1>
-    <p>A calculator for the Markov decision process fish problem for ISE 723.
+    <p>A calculator for the Markov decision process fish problem.
         <a href="https://github.com/TheEric960/MDP-fish-problem" target="_blank">[View the code]</a>
     </p>
 </div>
@@ -129,7 +129,8 @@
         </div>
 
         <div class="form-group mb-0">
-            <button id="calculate" class="btn btn-primary" onclick="unhide()" py-click="calc_mdp()" type="submit">Calculate
+            <button id="calculate" class="btn btn-primary" onclick="unhide()" py-click="calc_mdp()" type="submit">
+                Calculate
             </button>
             <input id="clear" class="btn btn-outline-danger" type="reset" value="Clear">
         </div>
@@ -143,16 +144,20 @@
 </div>
 
 <div id="tables" class="container mt-4" hidden>
-    <h4 class="h4">Values Table:</h4>
+    <h4 class="h4 mb-0">E[total reward | in state <i>i</i> with <i>n</i> periods]</h4>
+    <small><i>i</i> rows and <i>n</i> columns</small>
     <div id="values"></div>
 
-    <h4 class="h4">Decisions Table:</h4>
+    <h4 class="h4 mb-0">Optimal Order Quantity</h4>
+    <small><i>i</i> rows and <i>n</i> columns</small>
     <div id="decisions"></div>
 
-    <h4 class="h4">Gains Table:</h4>
+    <h4 class="h4 mb-0">Gain</h4>
+    <small><i>i</i> rows and <i>n</i> columns</small>
     <div id="gains"></div>
 
-    <h4 class="h4">Steady States:</h4>
+    <h4 class="h4 mb-0">Steady State Probabilities</h4>
+    <small><i>i</i> states</small>
     <div id="steady_states"></div>
 </div>
 

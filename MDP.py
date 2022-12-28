@@ -1,9 +1,15 @@
+"""
+A script for evaluating the Markov Decision Process for a fish business example.
+
+The original Excel macro code was released by Dr. Russel King and was converted by Jack Wilson.
+"""
+
 # imports
 import numpy as np
 from pandas import DataFrame
 
 # digits to round final results
-ROUND = 3
+ROUND = 2
 
 
 def mdp(
@@ -119,7 +125,7 @@ def mdp(
     gains[0] = 0
 
     # get steady states array
-    ss = DataFrame(pi, columns=['PI(i)']).round(ROUND).transpose()
+    ss = DataFrame(pi, columns=['PI(i)']).round(6).transpose()
 
     return values.round(ROUND), decisions, gains.round(ROUND), ss
 
